@@ -1,0 +1,41 @@
+# ansible_playbook create_file.yml -i /home/ubuntu/ansible/hosts --private-key=~/.ssh/ansible_key
+# create a file playbook
+---
+- name: This playbook will create a file
+  hosts: all
+  become: true
+  tasks:
+    - name: Create a file
+      file:
+        path: /home/ubuntu/subscribe.txt
+        state: touch
+
+# create a user playbook
+---
+- name: This playbook will create a user
+  hosts: all
+  become: true
+  tasks:
+    - name: Create a user
+      user: name=bilalahmed
+
+# install docker playbook
+---
+- name: This playbook will install Docker
+  hosts: all
+  become: true
+  tasks:
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: latest
